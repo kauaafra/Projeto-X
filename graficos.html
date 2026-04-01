@@ -40,29 +40,25 @@
       <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
         <div>
           <label style="font-weight: 600; margin-bottom: 12px; display: block;">🌍 Estado</label>
-          <select>
-            <option>Todos os Estados</option>
-            <option>São Paulo</option>
-            <option>Rio de Janeiro</option>
-            <option>Minas Gerais</option>
-            <option>Tocantins</option>
+          <select id="filtroEstado">
+            <option value="Tocantins">Tocantins</option>
           </select>
         </div>
         <div>
-          <label style="font-weight: 600; margin-bottom: 12px; display: block;">📂 Tipo de Gasto</label>
-          <select>
-            <option>Todos os Setores</option>
-            <option>Saúde</option>
-            <option>Educação</option>
-            <option>Infraestrutura</option>
+          <label style="font-weight: 600; margin-bottom: 12px; display: block;">📂 Tipo de Infraestrutura</label>
+          <select id="filtroInfraestrutura">
+            <option value="educacao">Educação e Escolas</option>
+            <option value="saude">Saúde e Hospitais</option>
+            <option value="transporte">Transporte</option>
           </select>
         </div>
         <div>
           <label style="font-weight: 600; margin-bottom: 12px; display: block;">📅 Período</label>
-          <select>
-            <option>6 Últimos Meses</option>
-            <option>3 Últimos Meses</option>
-            <option>Últimas 2 Semanas</option>
+          <select id="filtroPeriodo">
+            <option value="6 meses">6 meses</option>
+            <option value="3 meses">3 meses</option>
+            <option value="último mês">último mês</option>
+            <option value="2 semanas">2 semanas</option>
           </select>
         </div>
       </div>
@@ -169,81 +165,7 @@
   </div>
 </footer>
 
-<script>
-  // Bar Chart
-  new Chart(document.getElementById("barChart"), {
-    type: "bar",
-    data: {
-      labels: ["Saúde", "Educação", "Infraestrutura", "Segurança"],
-      datasets: [{
-        label: "Gastos (Milhões)",
-        data: [450, 380, 320, 200],
-        backgroundColor: [
-          '#1e40af',
-          '#3b82f6',
-          '#60a5fa',
-          '#93c5fd'
-        ],
-        borderRadius: 8
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false }
-      }
-    }
-  });
-
-  // Line Chart
-  new Chart(document.getElementById("lineChart"), {
-    type: "line",
-    data: {
-      labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho"],
-      datasets: [{
-        label: "Gastos (Milhões)",
-        data: [230, 240, 260, 245, 280, 295],
-        fill: true,
-        backgroundColor: 'rgba(30, 64, 175, 0.1)',
-        borderColor: '#1e40af',
-        borderWidth: 3,
-        pointBackgroundColor: '#1e40af',
-        pointRadius: 5,
-        tension: 0.4
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: true, position: 'top' }
-      }
-    }
-  });
-
-  // Pie Chart
-  new Chart(document.getElementById("pieChart"), {
-    type: "pie",
-    data: {
-      labels: ["Regular", "Requer Atenção", "Suspeito"],
-      datasets: [{
-        data: [85, 12, 3],
-        backgroundColor: [
-          '#10b981',
-          '#eab308',
-          '#ef4444'
-        ],
-        borderColor: 'white',
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { position: 'bottom' }
-      }
-    }
-  });
-</script>
-
+<script src="./js/base-dados.js"></script>
+<script src="./js/dashboard-simulacao.js"></script>
 </body>
 </html>

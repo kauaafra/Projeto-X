@@ -36,16 +36,16 @@
   <div class="container">
     <div class="grid" style="margin-bottom: 40px;">
       <div class="stat-card">
-        <div class="stat-value" style="color: #ef4444;">3</div>
+        <div class="stat-value" style="color: #ef4444;">0</div>
         <div class="stat-label">Alertas de Risco Alto</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" style="color: #eab308;">15</div>
+        <div class="stat-value" style="color: #eab308;">0</div>
         <div class="stat-label">Requerem Atenção</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" style="color: #3b82f6;">342</div>
-        <div class="stat-label">Total de Alertas Registrados</div>
+        <div class="stat-value" style="color: #f97316;">0</div>
+        <div class="stat-label">Total de Alertas</div>
       </div>
     </div>
   </div>
@@ -58,66 +58,7 @@
       <h2>Lista de Irregularidades Detectadas</h2>
       <p>Análise detalhada de contratos suspeitos</p>
     </div>
-
-    <!-- ALERTA 1 -->
-    <div class="card" style="margin-bottom: 24px; border-left: 4px solid #ef4444;">
-      <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
-        <div>
-          <h3 style="margin: 0 0 8px 0;">🏥 Reforma Hospital Central</h3>
-          <p style="margin: 0; color: var(--neutral-600); font-weight: 500;">Empresa: <strong>Construtora ABC Ltda</strong></p>
-        </div>
-        <span class="badge badge-danger">🔴 Risco Alto</span>
-      </div>
-      
-      <p style="margin-bottom: 20px; color: var(--neutral-600);">Valor <strong>38.9% acima</strong> da média de mercado para reformas similares</p>
-
-      <div class="grid" style="gap: 16px; margin-bottom: 24px;">
-        <div style="background: var(--neutral-50); padding: 16px; border-radius: var(--radius); text-align: center;">
-          <small style="color: var(--neutral-600); font-weight: 500;">💰 Valor do Contrato</small>
-          <p style="font-size: 1.5rem; font-weight: 700; color: #ef4444; margin: 8px 0;">R$ 2.500.000</p>
-        </div>
-        <div style="background: var(--neutral-50); padding: 16px; border-radius: var(--radius); text-align: center;">
-          <small style="color: var(--neutral-600); font-weight: 500;">📊 Média de Mercado</small>
-          <p style="font-size: 1.5rem; font-weight: 700; color: #10b981; margin: 8px 0;">R$ 1.800.000</p>
-        </div>
-        <div style="background: var(--neutral-50); padding: 16px; border-radius: var(--radius); text-align: center;">
-          <small style="color: var(--neutral-600); font-weight: 500;">⚠️ Desvio</small>
-          <p style="font-size: 1.5rem; font-weight: 700; color: #f97316; margin: 8px 0;">+38.9%</p>
-        </div>
-      </div>
-
-      <a href="#" class="btn btn-primary">Ver Detalhes Completos</a>
-    </div>
-
-    <!-- ALERTA 2 -->
-    <div class="card" style="margin-bottom: 24px; border-left: 4px solid #eab308;">
-      <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
-        <div>
-          <h3 style="margin: 0 0 8px 0;">🏥 Aquisição de Equipamentos Médicos</h3>
-          <p style="margin: 0; color: var(--neutral-600); font-weight: 500;">Empresa: <strong>MedEquip S.A.</strong></p>
-        </div>
-        <span class="badge badge-warning">🟡 Atenção</span>
-      </div>
-      
-      <p style="margin-bottom: 16px; color: var(--neutral-600);">Esta empresa participou de <strong>7 licitações similares nos últimos 6 meses</strong>, vencendo todas. Padrão incomum.</p>
-
-      <a href="#" class="btn btn-secondary">Investigar Padrão</a>
-    </div>
-
-    <!-- ALERTA 3 -->
-    <div class="card" style="margin-bottom: 24px; border-left: 4px solid #eab308;">
-      <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
-        <div>
-          <h3 style="margin: 0 0 8px 0;">🛣️ Pavimentação de Ruas - Zona Sul</h3>
-          <p style="margin: 0; color: var(--neutral-600); font-weight: 500;">Empresa: <strong>XYZ Construtora</strong></p>
-        </div>
-        <span class="badge badge-warning">🟡 Atenção</span>
-      </div>
-      
-      <p style="margin-bottom: 16px; color: var(--neutral-600);">Valor estipulado <strong>21.5% acima</strong> de projetos anteriores com escopo similar. Recomenda-se revisão.</p>
-
-      <a href="#" class="btn btn-secondary">Revisar Proposta</a>
-    </div>
+    <div id="lista-alertas"></div>
   </div>
 </section>
 
@@ -147,5 +88,7 @@
   </div>
 </footer>
 
+<script src="./js/base-dados.js"></script>
+<script src="./js/alertas.js"></script>
 </body>
 </html>
