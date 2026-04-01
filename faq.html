@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>FAQ - GovScan</title>
+  <link rel="stylesheet" href="./css/teste.css">
+  <style>
+    .faq-item {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 20px;
+      background: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+    }
+
+    .faq-question span {
+      margin-left: 10px;
+      font-size: 14px;
+    }
+
+    .faq-text {
+      flex: 1;
+      color: #1e293b;
+      text-align: left;
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 20px 20px;
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1 style="text-align:center;">Perguntas Frequentes</h1>
+  <p style="text-align:center;">Encontre respostas para dúvidas sobre o GovScan</p>
+
+  <div id="faq-list">
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <div class="faq-text">O que é o GovScan?</div>
+        <span>▼</span>
+      </button>
+      <div class="faq-answer">
+        O GovScan é uma plataforma que utiliza inteligência artificial para analisar gastos públicos.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <div class="faq-text">Como os dados são analisados?</div>
+        <span>▼</span>
+      </button>
+      <div class="faq-answer">
+        Utilizamos algoritmos que identificam padrões suspeitos.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <div class="faq-text">Os dados são confiáveis?</div>
+        <span>▼</span>
+      </button>
+      <div class="faq-answer">
+        Sim, são coletados de fontes oficiais.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <div class="faq-text">Qualquer pessoa pode acessar?</div>
+        <span>▼</span>
+      </button>
+      <div class="faq-answer">
+        Sim, a plataforma é pública e gratuita.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card" style="margin-top:40px; text-align:center; background:#eff6ff;">
+    <h3>Ainda tem dúvidas?</h3>
+    <p>Nossa equipe pode ajudar você</p>
+    <a href="mailto:contato@govscan.com" class="btn">Entre em Contato</a>
+  </div>
+
+</div>
+
+<script>
+  const items = document.querySelectorAll(".faq-item");
+
+  items.forEach(item => {
+    item.querySelector(".faq-question").addEventListener("click", () => {
+      item.classList.toggle("active");
+    });
+  });
+</script>
+
+</body>
+</html>

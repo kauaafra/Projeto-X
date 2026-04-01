@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="./css/teste.css">
+  <style>
+    body {
+      font-family: Arial;
+      background: #f9fafb;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .grid {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .grid > div {
+      flex: 1;
+      min-width: 250px;
+    }
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    td, th {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    .badge {
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 12px;
+    }
+    .regular { background: #d1fae5; color: #065f46; }
+    .attention { background: #fef3c7; color: #92400e; }
+    .suspicious { background: #fee2e2; color: #991b1b; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1>Dashboard de Análise</h1>
+  <p>Visualize dados de contratos públicos</p>
+
+  <!-- Filtros -->
+  <div class="card">
+    <h3>Filtros</h3>
+    <div class="grid">
+      <div>
+        <label>Estado</label>
+        <select>
+          <option>São Paulo</option>
+          <option>Rio de Janeiro</option>
+          <option>Tocantins</option>
+        </select>
+      </div>
+      <div>
+        <label>Tipo</label>
+        <select>
+          <option>Todos</option>
+          <option>Saúde</option>
+        </select>
+      </div>
+      <div>
+        <label>Período</label>
+        <select>
+          <option>6 meses</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Métricas -->
+  <div class="grid">
+    <div class="card">
+      <h4>Total Gasto</h4>
+      <h2>R$ 1,61 Bi</h2>
+    </div>
+    <div class="card">
+      <h4>Contratos</h4>
+      <h2>15.234</h2>
+    </div>
+    <div class="card">
+      <h4>Alertas</h4>
+      <h2>342</h2>
+    </div>
+  </div>
+
+  <!-- Gráficos -->
+  <div class="grid">
+    <div class="card">
+      <h3>Gastos por Setor</h3>
+      <canvas id="barChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h3>Evolução de Gastos</h3>
+      <canvas id="lineChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Pizza + Tabela -->
+  <div class="grid">
+    <div class="card">
+      <h3>Status</h3>
+      <canvas id="pieChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h3>Contratos Recentes</h3>
+      <table>
+        <tr>
+          <th>Contrato</th>
+          <th>Empresa</th>
+          <th>Valor</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td>Reforma Hospital</td>
+          <td>ABC Ltda</td>
+          <td>R$ 2.500.000</td>
+          <td><span class="badge regular">Regular</span></td>
+        </tr>
+        <tr>
+          <td>Equipamentos</td>
+          <td>MedEquip</td>
+          <td>R$ 1.800.000</td>
+          <td><span class="badge attention">Atenção</span></td>
+        </tr>
+        <tr>
+          <td>Pavimentação</td>
+          <td>XYZ</td>
+          <td>R$ 4.200.000</td>
+          <td><span class="badge suspicious">Suspeito</span></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Bar Chart
+  new Chart(document.getElementById("barChart"), {
+    type: "bar",
+    data: {
+      labels: ["Saúde", "Educação", "Infraestrutura"],
+      datasets: [{
+        data: [450, 380, 320],
+      }]
+    }
+  });
+
+  // Line Chart
+  new Chart(document.getElementById("lineChart"), {
+    type: "line",
+    data: {
+      labels: ["Jan", "Fev", "Mar", "Abr"],
+      datasets: [{
+        data: [230, 240, 260, 245],
+        fill: false
+      }]
+    }
+  });
+
+  // Pie Chart
+  new Chart(document.getElementById("pieChart"), {
+    type: "pie",
+    data: {
+      labels: ["Regular", "Atenção", "Suspeito"],
+      datasets: [{
+        data: [85, 12, 3]
+      }]
+    }
+  });
+</script>
+
+</body>
+</html>
