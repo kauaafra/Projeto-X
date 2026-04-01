@@ -2,115 +2,157 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>GovScan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GovScan - Transparência em Gastos Públicos</title>
   <link rel="stylesheet" href="./css/teste.css">
 </head>
 <body>
 
-<div class="container">
+<!-- NAVEGAÇÃO -->
+<nav style="background: var(--primary-dark); color: white; padding: 16px 0; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm);">
+  <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+    <h3 style="color: white; margin: 0; font-size: 1.5rem; font-weight: 600;">
+      GovScan
+    </h3>
+    <ul style="list-style: none; display: flex; gap: 30px; margin: 0;">
+      <li><a href="./index.html" style="color: white; text-decoration: none; font-weight: 500;">Home</a></li>
+      <li><a href="./graficos.html" style="color: white; text-decoration: none; font-weight: 500;">Dashboard</a></li>
+      <li><a href="./alerta.html" style="color: white; text-decoration: none; font-weight: 500;">Alertas</a></li>
+      <li><a href="./faq.html" style="color: white; text-decoration: none; font-weight: 500;">FAQ</a></li>
+    </ul>
+  </div>
+</nav>
 
-  <!-- HERO -->
-  <section style="background: linear-gradient(to right, #2563eb, #1e40af); color: white; padding: 80px 20px; text-align:center;">
-    <h1>Transparência inteligente para os gastos públicos</h1>
-    <p style="color:#dbeafe; font-size:18px;">
-      Análise automatizada de contratos governamentais com detecção de padrões suspeitos
-    </p>
-    <br>
-    <a href="./graficos.html" class="btn" style="background:#22c55e;">Explorar Dados</a>
-  </section>
+<!-- HERO -->
+<section class="section-hero">
+  <div class="container">
+    <h1>Transparência Inteligente para Gastos Públicos</h1>
+    <p>Análise automatizada de contratos governamentais com detecção de padrões suspeitos e irregularidades</p>
+    <div style="margin-top: 40px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+      <a href="./graficos.html" class="btn btn-success">Explorar Dashboard</a>
+      <a href="#sobre" class="btn btn-outline" style="border-color: white; color: white;">Saiba Mais</a>
+    </div>
+  </div>
+</section>
 
-  <!-- SOBRE -->
-  <section style="padding:60px 0;">
-    <h2 style="text-align:center;">O que é o GovScan?</h2>
-    <p style="text-align:center; max-width:600px; margin:auto;">
-      Plataforma que utiliza inteligência artificial para identificar irregularidades em contratos públicos
-    </p>
+<!-- SOBRE -->
+<section id="sobre" class="section-light">
+  <div class="container">
+    <div class="section-title">
+      <h2>O que é o GovScan?</h2>
+      <p>Uma solução tecnológica inovadora que transforma transparência em ação</p>
+    </div>
 
-    <div class="grid" style="margin-top:40px;">
+    <div class="grid" style="margin-top: 50px;">
       <div class="card">
-        <h3>🔍 Análise Automática</h3>
-        <p>Processamento inteligente de contratos</p>
+        <div class="card-icon">🔍</div>
+        <h3 class="card-title">Análise Automática</h3>
+        <p class="card-text">Processamento inteligente de contratos e licitações governamentais com IA avançada</p>
       </div>
 
       <div class="card">
-        <h3>⚠️ Detecção de Irregularidades</h3>
-        <p>Identificação de valores suspeitos</p>
+        <div class="card-icon">⚠️</div>
+        <h3 class="card-title">Detecção de Irregularidades</h3>
+        <p class="card-text">Identificação de valores suspeitos, padrões anômalos e comportamentos atípicos</p>
       </div>
 
       <div class="card">
-        <h3>📊 Visualização Clara</h3>
-        <p>Dashboards e gráficos interativos</p>
+        <div class="card-icon">📊</div>
+        <h3 class="card-title">Visualização Clara</h3>
+        <p class="card-text">Dashboards intuitivos e gráficos interativos para melhor compreensão dos dados</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FUNCIONALIDADES -->
-  <section style="padding:60px 0;">
-    <h2 style="text-align:center;">Funcionalidades</h2>
+<!-- FUNCIONALIDADES -->
+<section>
+  <div class="container">
+    <div class="section-title">
+      <h2>Funcionalidades Principais</h2>
+      <p>Ferramentas poderosas para análise e transparência governamental</p>
+    </div>
 
-    <div class="grid" style="margin-top:30px;">
+    <div class="grid" style="margin-top: 50px;">
       <div class="card">
-        <h4>📈 Análise de Contratos</h4>
-        <p>Processamento automatizado</p>
+        <div class="card-icon">📈</div>
+        <h3 class="card-title">Análise de Contratos</h3>
+        <p class="card-text">Processamento automatizado de documentos e extração de dados relevantes</p>
       </div>
 
       <div class="card">
-        <h4>🎯 Padrões Suspeitos</h4>
-        <p>Identificação de comportamentos atípicos</p>
+        <div class="card-icon">🎯</div>
+        <h3 class="card-title">Detecção de Padrões</h3>
+        <p class="card-text">Identificação automática de comportamentos incomuns e anomalias</p>
       </div>
 
       <div class="card">
-        <h4>📊 Visualização</h4>
-        <p>Gráficos interativos</p>
+        <div class="card-icon">📊</div>
+        <h3 class="card-title">Dashboards Interativos</h3>
+        <p class="card-text">Visualização dinâmica de dados com múltiplas perspectivas de análise</p>
       </div>
 
       <div class="card">
-        <h4>🚨 Alertas</h4>
-        <p>Notificações automáticas</p>
+        <div class="card-icon">🚨</div>
+        <h3 class="card-title">Sistema de Alertas</h3>
+        <p class="card-text">Notificações automáticas quando situações suspeitas são identificadas</p>
       </div>
 
       <div class="card">
-        <h4>🛡️ Dados Confiáveis</h4>
-        <p>Fontes oficiais</p>
+        <div class="card-icon">🛡️</div>
+        <h3 class="card-title">Dados Confiáveis</h3>
+        <p class="card-text">Integração com portais oficiais de transparência e fontes governamentais</p>
       </div>
 
       <div class="card">
-        <h4>👁️ Transparência</h4>
-        <p>Dados acessíveis ao público</p>
+        <div class="card-icon">👁️</div>
+        <h3 class="card-title">Transparência Pública</h3>
+        <p class="card-text">Acesso democratizado a informações sobre gastos públicos</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ESTATÍSTICAS -->
-  <section style="background:#111827; color:white; padding:60px 20px; text-align:center;">
+<!-- ESTATÍSTICAS -->
+<section class="section-dark">
+  <div class="container">
     <div class="grid">
-      <div>
-        <h2 style="color:#4ade80;">15.234</h2>
-        <p>Contratos Analisados</p>
+      <div class="stat-card">
+        <div class="stat-value" style="color: #4ade80;">15.234</div>
+        <div class="stat-label">Contratos Analisados</div>
       </div>
-      <div>
-        <h2 style="color:#facc15;">R$ 2,8 Bi</h2>
-        <p>Total em Gastos</p>
+      <div class="stat-card">
+        <div class="stat-value" style="color: #facc15;">R$ 2,8 Bi</div>
+        <div class="stat-label">Total em Gastos Monitorados</div>
       </div>
-      <div>
-        <h2 style="color:#f87171;">342</h2>
-        <p>Alertas Gerados</p>
+      <div class="stat-card">
+        <div class="stat-value" style="color: #f87171;">342</div>
+        <div class="stat-label">Alertas Gerados</div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CTA -->
-  <section style="padding:60px 0; text-align:center;">
-    <h2>Comece a explorar os dados agora</h2>
-    <p>Descubra insights sobre gastos públicos</p>
+<!-- CTA FINAL -->
+<section class="section-light">
+  <div class="container" style="text-align: center;">
+    <h2>Comece a Explorar os Dados Agora</h2>
+    <p style="margin-bottom: 40px;">Descubra insights valiosos sobre gastos públicos e fortaleça a transparência governamental</p>
 
-    <div style="margin-top:20px;">
-      <a href="./graficos.html" class="btn">Ver Dashboard</a>
-      <a href="./alerta.html" class="btn" style="background:white; color:#2563eb; border:1px solid #2563eb;">Ver Alertas</a>
+    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+      <a href="./graficos.html" class="btn btn-primary btn-lg">Acessar Dashboard</a>
+      <a href="./alerta.html" class="btn btn-outline btn-lg">Ver Últimos Alertas</a>
     </div>
-  </section>
+  </div>
+</section>
 
-</div>
+<!-- RODAPÉ -->
+<footer style="background: var(--primary-dark); color: white; padding: 40px 0; text-align: center; margin-top: 60px;">
+  <div class="container">
+    <p style="color: white; margin-bottom: 10px;">&copy; 2026 GovScan - Transparência em Gastos Públicos</p>
+    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Alinhado à ODS 16 - Paz, Justiça e Instituições Eficazes</p>
+  </div>
+</footer>
 
 </body>
 </html>

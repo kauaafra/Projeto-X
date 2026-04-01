@@ -2,119 +2,201 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>FAQ - GovScan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ - Perguntas Frequentes - GovScan</title>
   <link rel="stylesheet" href="./css/teste.css">
-  <style>
-    .faq-item {
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      overflow: hidden;
-      background: white;
-    }
-
-    .faq-question {
-      width: 100%;
-      padding: 20px;
-      background: white;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 16px;
-    }
-
-    .faq-question span {
-      margin-left: 10px;
-      font-size: 14px;
-    }
-
-    .faq-text {
-      flex: 1;
-      color: #1e293b;
-      text-align: left;
-    }
-
-    .faq-answer {
-      display: none;
-      padding: 0 20px 20px;
-      color: #64748b;
-      border-top: 1px solid #e2e8f0;
-    }
-
-    .faq-item.active .faq-answer {
-      display: block;
-    }
-  </style>
 </head>
 <body>
 
-<div class="container">
-
-  <h1 style="text-align:center;">Perguntas Frequentes</h1>
-  <p style="text-align:center;">Encontre respostas para dúvidas sobre o GovScan</p>
-
-  <div id="faq-list">
-
-    <div class="faq-item">
-      <button class="faq-question">
-        <div class="faq-text">O que é o GovScan?</div>
-        <span>▼</span>
-      </button>
-      <div class="faq-answer">
-        O GovScan é uma plataforma que utiliza inteligência artificial para analisar gastos públicos.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question">
-        <div class="faq-text">Como os dados são analisados?</div>
-        <span>▼</span>
-      </button>
-      <div class="faq-answer">
-        Utilizamos algoritmos que identificam padrões suspeitos.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question">
-        <div class="faq-text">Os dados são confiáveis?</div>
-        <span>▼</span>
-      </button>
-      <div class="faq-answer">
-        Sim, são coletados de fontes oficiais.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question">
-        <div class="faq-text">Qualquer pessoa pode acessar?</div>
-        <span>▼</span>
-      </button>
-      <div class="faq-answer">
-        Sim, a plataforma é pública e gratuita.
-      </div>
-    </div>
-
+<!-- NAVEGAÇÃO -->
+<nav style="background: var(--primary-dark); color: white; padding: 16px 0; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm);">
+  <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+    <h3 style="color: white; margin: 0; font-size: 1.5rem; font-weight: 600;">
+      GovScan
+    </h3>
+    <ul style="list-style: none; display: flex; gap: 30px; margin: 0;">
+      <li><a href="./index.html" style="color: white; text-decoration: none; font-weight: 500;">Home</a></li>
+      <li><a href="./graficos.html" style="color: white; text-decoration: none; font-weight: 500;">Dashboard</a></li>
+      <li><a href="./alerta.html" style="color: white; text-decoration: none; font-weight: 500;">Alertas</a></li>
+      <li><a href="./faq.html" style="color: white; text-decoration: none; font-weight: 500;">FAQ</a></li>
+    </ul>
   </div>
+</nav>
 
-  <div class="card" style="margin-top:40px; text-align:center; background:#eff6ff;">
-    <h3>Ainda tem dúvidas?</h3>
-    <p>Nossa equipe pode ajudar você</p>
-    <a href="mailto:contato@govscan.com" class="btn">Entre em Contato</a>
+<!-- HERO -->
+<section class="section-hero">
+  <div class="container">
+    <h1>❓ Perguntas Frequentes</h1>
+    <p>Encontre respostas para suas dúvidas sobre o GovScan</p>
   </div>
+</section>
 
-</div>
+<!-- FAQ -->
+<section class="section-light">
+  <div class="container">
+    <div style="max-width: 800px; margin: 0 auto;">
+      <div id="faq-list">
+
+        <!-- FAQ 1 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <div class="faq-text">O que é o GovScan?</div>
+            <span>▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>O GovScan é uma plataforma inovadora que utiliza <strong>inteligência artificial e análise de dados avançada</strong> para examinar automaticamente informações de gastos públicos. Ela foi desenvolvida para aumentar a transparência e a eficiência na análise de contratos governamentais, licitações e informações financeiras provenientes de portais de transparência.</p>
+            <p>A plataforma ajuda gestores públicos, órgãos de fiscalização e a sociedade a compreender melhor como os recursos estão sendo utilizados.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <div class="faq-text">Como o GovScan analisa os dados?</div>
+            <span>▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>Utilizamos <strong>algoritmos avançados</strong> para analisar dados de múltiplas formas:</p>
+            <ul style="margin: 12px 0; padding-left: 20px;">
+              <li>Comparação de valores de contratos com médias históricas de mercado</li>
+              <li>Análise de frequência de participação de empresas em licitações</li>
+              <li>Identificação de anomalias estatísticas nos dados</li>
+              <li>Cruzamento de informações para detectar relações suspeitas</li>
+              <li>Monitoramento de padrões incomuns em tempo real</li>
+            </ul>
+            <p>Todos esses processos ocorrem automaticamente, permitindo análise rápida de grandes volumes de dados.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <div class="faq-text">Os dados da plataforma são confiáveis?</div>
+            <span>▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>Sim, totalmente! Os dados do GovScan são coletados de <strong>fontes oficiais governamentais</strong>, especificamente de portais de transparência públicos e sistemas governamentais autorizados.</p>
+            <p>Garantimos a confiabilidade através de:</p>
+            <ul style="margin: 12px 0; padding-left: 20px;">
+              <li>Integração com portais oficiais de transparência</li>
+              <li>Validação contínua de dados</li>
+              <li>Rastreabilidade completa das informações</li>
+              <li>Conformidade com legislações de transparência pública</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <div class="faq-text">Qualquer pessoa pode acessar o GovScan?</div>
+            <span>▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>Sim! A plataforma GovScan é <strong>pública e gratuita</strong> para qualquer pessoa que deseje consultar dados sobre gastos governamentais e identificar possíveis irregularidades.</p>
+            <p>Qualquer cidadão, gestor público, pesquisador ou organização pode acessar e utilizar as ferramentas de análise sem restrições.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <div class="faq-text">Qual é o objetivo do GovScan?</div>
+            <span>▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>O GovScan tem como objetivo principal <strong>apoiar a transparência governamental</strong> sem substituir órgãos de controle e auditoria.</p>
+            <p>Especificamente, o projeto busca:</p>
+            <ul style="margin: 12px 0; padding-left: 20px;">
+              <li>Oferecer uma ferramenta de apoio para identificação de possíveis problemas</li>
+              <li>Facilitar a análise de grandes volumes de dados financeiros</li>
+              <li>Fortalecer a transparência e o acesso à informação pública</li>
+              <li>Melhorar a governança e a fiscalização de recursos públicos</li>
+              <li>Contribuir para a ODS 16 (Paz, Justiça e Instituições Eficazes)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- FAQ 6 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <div class="faq-text">Como faço para exportar dados da plataforma?</div>
+            <span>▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>Você pode exportar dados de várias formas no GovScan:</p>
+            <ul style="margin: 12px 0; padding-left: 20px;">
+              <li><strong>Relatórios em PDF</strong> - Gere relatórios completos de análises</li>
+              <li><strong>Exportação CSV/Excel</strong> - Para análise em ferramentas externas</li>
+              <li><strong>Gráficos e dashboards</strong> - Importe visualizações diretas</li>
+              <li><strong>API de dados</strong> - Para integração com outras plataformas</li>
+            </ul>
+            <p>Todos os dados exportados mantêm a rastreabilidade e conformidade com legislações de acesso à informação pública.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 7 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <div class="faq-text">Quando devo investigar um alerta?</div>
+            <span>▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>O GovScan categoriza alertas por nível de risco:</p>
+            <ul style="margin: 12px 0; padding-left: 20px;">
+              <li><strong style="color: #10b981;">✓ Regular</strong> - Contrato dentro dos padrões normais</li>
+              <li><strong style="color: #eab308;">⚠️ Atenção</strong> - Requer análise adicional, mas não é crítico</li>
+              <li><strong style="color: #ef4444;">🔴 Risco Alto</strong> - Recomenda-se investigação imediata</li>
+            </ul>
+            <p>Recomendamos revisar alertas de <strong>Atenção</strong> regularmente e investigar imediatamente aqueles marcados como <strong>Risco Alto</strong>.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="container" style="text-align: center; max-width: 600px; margin: 0 auto;">
+    <div class="card" style="background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(30, 64, 175, 0.02)); border: 2px solid var(--primary-light);">
+      <h3>✉️ Ainda tem dúvidas?</h3>
+      <p style="margin-bottom: 20px;">Nossa equipe está aqui para ajudar você com qualquer pergunta sobre a plataforma GovScan.</p>
+      <div style="display: flex; gap: 12px; justify-content: center;">
+        <a href="mailto:contato@govscan.com" class="btn btn-primary">Enviar Email</a>
+        <a href="./index.html" class="btn btn-secondary">Voltar ao Início</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RODAPÉ -->
+<footer style="background: var(--primary-dark); color: white; padding: 40px 0; text-align: center; margin-top: 60px;">
+  <div class="container">
+    <p style="color: white; margin-bottom: 10px;">&copy; 2026 GovScan - Transparência em Gastos Públicos</p>
+    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Alinhado à ODS 16 - Paz, Justiça e Instituições Eficazes</p>
+  </div>
+</footer>
 
 <script>
   const items = document.querySelectorAll(".faq-item");
 
-  items.forEach(item => {
+  items.forEach((item, index) => {
     item.querySelector(".faq-question").addEventListener("click", () => {
+      // Fechar outros itens
+      items.forEach((otherItem, otherIndex) => {
+        if (otherIndex !== index) {
+          otherItem.classList.remove("active");
+        }
+      });
+      // Toggle item atual
       item.classList.toggle("active");
     });
   });
+
+  // Abrir primeiro item por padrão
+  items[0].classList.add("active");
 </script>
 
 </body>
