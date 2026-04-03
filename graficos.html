@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard de Análise - GovScan</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <link rel="stylesheet" href="./css/teste.css">
 </head>
 <body>
@@ -152,6 +153,84 @@
             </tbody>
           </table>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPLOAD IA -->
+<section class="section-light">
+  <div class="container">
+    <div class="section-title">
+      <h2>🤖 Classificador de Contratos por Arquivo</h2>
+      <p>Envie um arquivo JSON e selecione a área de infraestrutura para a IA usar as médias corretas na análise</p>
+    </div>
+
+    <div class="card" style="margin-bottom: 24px;">
+      <div class="grid" style="grid-template-columns: 1.4fr 1fr auto auto; align-items: end; gap: 16px;">
+        <div>
+          <label style="font-weight: 600; margin-bottom: 10px; display: block;">📎 Arquivo de entrada</label>
+          <input id="arquivoContratos" type="file" accept=".pdf" style="width: 100%;" />
+          <small style="color: #6b7280; display: block; margin-top: 8px;">Formato aceito: PDF. O contrato é extraído, organizado e convertido para JSON automaticamente.</small>
+        </div>
+        <div>
+          <label style="font-weight: 600; margin-bottom: 10px; display: block;">🏗️ Área de infraestrutura</label>
+          <select id="areaSelect" style="width: 100%;">
+            <option value="">Selecione a área</option>
+            <option value="educacao">Educação e Escolas</option>
+            <option value="saude">Saúde e Hospitais</option>
+            <option value="transporte">Transporte</option>
+          </select>
+        </div>
+        <button id="btnAnalisarArquivo" class="btn btn-primary">Analisar Arquivo</button>
+        <button id="btnLimparAnalise" class="btn btn-outline">Limpar</button>
+      </div>
+      <p id="statusAnaliseArquivo" style="margin-top: 14px; color: #1e40af; font-weight: 600;"></p>
+    </div>
+
+    <div class="grid" style="margin-bottom: 24px;">
+      <div class="stat-card">
+        <div id="uploadTotalContratos" class="stat-value" style="color: #3b82f6;">0</div>
+        <div class="stat-label">Contratos no Arquivo</div>
+      </div>
+      <div class="stat-card">
+        <div id="uploadTotalAlertas" class="stat-value" style="color: #ef4444;">0</div>
+        <div class="stat-label">Alertas (Atenção + Alto)</div>
+      </div>
+      <div class="stat-card">
+        <div id="uploadCategoriasValidas" class="stat-value" style="color: #10b981;">0</div>
+        <div class="stat-label">Categorias com Base Estatística</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 24px;">
+      <h3 style="margin-bottom: 16px;">🚨 Alertas Detectados</h3>
+      <ul id="listaAlertasUpload" style="padding-left: 18px; margin: 0; color: #374151; display: flex; flex-direction: column; gap: 8px;">
+        <li>Nenhuma análise executada ainda.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom: 16px;">📋 Classificação Detalhada</h3>
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Empresa</th>
+              <th>Categoria</th>
+              <th>Valor</th>
+              <th>Média da Categoria</th>
+              <th>Z-Score</th>
+              <th>Status</th>
+              <th>Justificativa</th>
+            </tr>
+          </thead>
+          <tbody id="resultadoUploadBody">
+            <tr>
+              <td colspan="7" style="text-align: center; color: #6b7280;">Envie um arquivo para iniciar a classificação.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

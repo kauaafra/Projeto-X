@@ -183,7 +183,9 @@
   });
 
   // Abrir primeiro item por padrão
-  items[0].classList.add("active");
+  if (items.length > 0) {
+    items[0].classList.add("active");
+  }
 </script>
 
 </body>

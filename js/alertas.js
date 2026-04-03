@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const alto = contratos.filter((c) => c.risco === "ALTO").length;
   const atencao = contratos.filter((c) => c.risco === "ATENÇÃO").length;
   const totalAlertas = alto + atencao;
-  const baixo = contratos.filter((c) => c.risco === "BAIXO").length;
 
   const cards = document.querySelectorAll(".section-light .stat-card");
   if (cards.length >= 3) {
@@ -26,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const lista = document.getElementById("lista-alertas");
   if (!lista) return;
 
-  const alertas = contratos.filter((c) => c.risco === "ALTO" || c.risco === "ATENÇÃO" || c.anomalia || c.suspeita);
+  const alertas = contratos.filter((c) => c.risco === "ALTO" || c.risco === "ATENÇÃO");
   lista.innerHTML = "";
 
   alertas.forEach((c) => {
@@ -40,6 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
             : "badge-success";
     const cor = c.risco === "ALTO" ? "#ef4444" : c.risco === "ATENÇÃO" ? "#eab308" : c.risco === "BAIXO" ? "#3b82f6" : "#10b981";
     const desvio = ((c.valor - c.media) / c.media) * 100;
+    const faltaParaMedia = Math.max(0, c.media - c.valor);
+    const textoDesvio = c.risco === "BAIXO"
+      ? `Falta R$ ${faltaParaMedia.toLocaleString("pt-BR")} para atingir a media da area.`
+      : `${desvio.toFixed(1)}%`;
     const marcadores = [];
     if (c.anomalia) marcadores.push("Anomalia estatística");
     if (c.suspeita) marcadores.push("Relação suspeita");
@@ -70,17 +73,10 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div style="background: var(--neutral-50); padding: 16px; border-radius: var(--radius); text-align: center;">
           <small style="color: var(--neutral-600); font-weight: 500;">Desvio</small>
-          <p style="font-size: 1.3rem; font-weight: 700; color: #f97316; margin: 8px 0;">${desvio.toFixed(1)}%</p>
+          <p style="font-size: 1.1rem; font-weight: 700; color: #f97316; margin: 8px 0;">${textoDesvio}</p>
         </div>
       </div>
     `;
     lista.appendChild(card);
   });
-
-  const info = document.createElement("p");
-  info.style.marginTop = "12px";
-  info.style.color = "#3b82f6";
-  info.style.fontWeight = "600";
-  info.textContent = `Informativo: ${baixo} contrato(s) classificados como BAIXO.`;
-  lista.appendChild(info);
 });

@@ -180,7 +180,8 @@ function atualizarGraficos(dados) {
   const { cor, rgb } = obterCorAba(abaAtiva);
 
   // Bar Chart
-  const barChart = Chart.helpers.getChart(document.getElementById("barChart"));
+  const barEl = document.getElementById("barChart");
+  const barChart = Chart.getChart ? Chart.getChart(barEl) : Chart.helpers?.getChart?.(barEl);
   if (barChart) {
     // Agrupar por empresa e somar valores
     const gastosPorEmpresa = {};
@@ -196,7 +197,8 @@ function atualizarGraficos(dados) {
   }
 
   // Line Chart - evolução temporal
-  const lineChart = Chart.helpers.getChart(document.getElementById("lineChart"));
+  const lineEl = document.getElementById("lineChart");
+  const lineChart = Chart.getChart ? Chart.getChart(lineEl) : Chart.helpers?.getChart?.(lineEl);
   if (lineChart) {
     // Agrupar por mês
     const gastosPorMes = {};
@@ -215,7 +217,8 @@ function atualizarGraficos(dados) {
   }
 
   // Pie Chart - Distribuição de status
-  const pieChart = Chart.helpers.getChart(document.getElementById("pieChart"));
+  const pieEl = document.getElementById("pieChart");
+  const pieChart = Chart.getChart ? Chart.getChart(pieEl) : Chart.helpers?.getChart?.(pieEl);
   if (pieChart) {
     const normais = dados.filter(d => d.status === "Normal").length;
     const suspeitos = dados.filter(d => d.status === "Suspeito").length;

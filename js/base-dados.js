@@ -1,80 +1,250 @@
 function calcularVariacao(valor, media) {
+  if (!media) return 0;
   return Number((((valor - media) / media) * 100).toFixed(2));
 }
 
-function classificarRisco(variacao) {
-  if (variacao > 30) return "ALTO";
-  if (variacao >= 15) return "ATENÇÃO";
-  if (variacao < -15) return "BAIXO";
+function calcularMedia(valores) {
+  if (!valores.length) return 0;
+  return valores.reduce((acc, valor) => acc + valor, 0) / valores.length;
+}
+
+function calcularDesvioPadrao(valores, media) {
+  if (valores.length <= 1) return 0;
+  const variancia = valores.reduce((acc, valor) => {
+    const delta = valor - media;
+    return acc + (delta * delta);
+  }, 0) / valores.length;
+  return Math.sqrt(variancia);
+}
+
+function calcularZScore(valor, media, desvioPadrao) {
+  if (!desvioPadrao) return 0;
+  return Number(((valor - media) / desvioPadrao).toFixed(4));
+}
+
+function classificarRisco(zScore) {
+  if (zScore > 2) return "ALTO";
+  if (zScore > 1) return "ATENÇÃO";
+  if (zScore < -1) return "BAIXO";
   return "NORMAL";
 }
 
-function classificarContrato(contrato) {
-  const variacao = calcularVariacao(contrato.valor, contrato.media);
+function classificarContrato(contrato, estatisticaCategoria) {
+  if (!estatisticaCategoria || estatisticaCategoria.total < 5) {
+    return {
+      ...contrato,
+      media: contrato.media || 0,
+      desvioPadrao: 0,
+      zScore: 0,
+      variacao: 0,
+      risco: "NORMAL",
+      frequenciaEmpresa: 0,
+      alertaFrequencia: false,
+      anomalia: false,
+      suspeita: false,
+      alertasDetectados: ["Categoria com poucos dados para analise estatistica"]
+    };
+  }
+
+  const mediaCategoria = estatisticaCategoria.media;
+  const desvioPadrao = estatisticaCategoria.desvioPadrao;
+  const zScore = calcularZScore(contrato.valor, mediaCategoria, desvioPadrao);
+  const variacao = calcularVariacao(contrato.valor, mediaCategoria);
+
   return {
     ...contrato,
+    media: Number(mediaCategoria.toFixed(2)),
+    desvioPadrao: Number(desvioPadrao.toFixed(2)),
+    zScore,
     variacao,
-    risco: classificarRisco(variacao),
+    risco: classificarRisco(zScore),
     frequenciaEmpresa: 0,
+    alertaFrequencia: false,
     anomalia: false,
-    suspeita: false
+    suspeita: false,
+    alertasDetectados: []
   };
 }
 
 function analisarFrequenciaEmpresas(contratos) {
-  const frequenciaPorEmpresaPeriodo = {};
+  const frequenciaPorEmpresaCategoria = {};
 
   contratos.forEach((contrato) => {
-    const chave = `${contrato.empresa}::${contrato.periodo}`;
-    frequenciaPorEmpresaPeriodo[chave] = (frequenciaPorEmpresaPeriodo[chave] || 0) + 1;
+    if (contrato.risco !== "ALTO") return;
+    const chave = `${contrato.empresa}::${contrato.area}`;
+    frequenciaPorEmpresaCategoria[chave] = (frequenciaPorEmpresaCategoria[chave] || 0) + 1;
   });
 
   return contratos.map((contrato) => {
-    const chave = `${contrato.empresa}::${contrato.periodo}`;
-    const frequenciaEmpresa = frequenciaPorEmpresaPeriodo[chave] || 0;
+    const chave = `${contrato.empresa}::${contrato.area}`;
+    const frequenciaEmpresa = frequenciaPorEmpresaCategoria[chave] || 0;
+    const alertaFrequencia = frequenciaEmpresa >= 2;
+    const alertasDetectados = Array.isArray(contrato.alertasDetectados)
+      ? [...contrato.alertasDetectados]
+      : [];
+
+    if (alertaFrequencia) {
+      alertasDetectados.push("Mesma empresa recorrente em alto risco na categoria");
+    }
+
     return {
       ...contrato,
       frequenciaEmpresa,
-      alertaFrequencia: frequenciaEmpresa > 5
+      alertaFrequencia,
+      alertasDetectados
     };
   });
 }
 
 function detectarAnomalias(contratos) {
+  const contratosPorArea = {};
+  const periodosOrdenados = ["2 semanas", "último mês", "3 meses", "6 meses"];
+  const ordemPeriodo = periodosOrdenados.reduce((acc, periodo, index) => {
+    acc[periodo] = index;
+    return acc;
+  }, {});
+
+  contratos.forEach((contrato) => {
+    if (!contratosPorArea[contrato.area]) contratosPorArea[contrato.area] = [];
+    contratosPorArea[contrato.area].push(contrato);
+  });
+
+  const idsProximos = new Set();
+  const idsCrescimento = new Set();
+
+  Object.values(contratosPorArea).forEach((lista) => {
+    const ordenadosPorValor = [...lista].sort((a, b) => a.valor - b.valor);
+    for (let i = 1; i < ordenadosPorValor.length; i += 1) {
+      const atual = ordenadosPorValor[i];
+      const anterior = ordenadosPorValor[i - 1];
+      const diffRelativa = Math.abs(atual.valor - anterior.valor) / Math.max(atual.valor, anterior.valor);
+      if (diffRelativa <= 0.02) {
+        idsProximos.add(atual.id);
+        idsProximos.add(anterior.id);
+      }
+    }
+
+    const mediaPorPeriodo = {};
+    lista.forEach((contrato) => {
+      if (!mediaPorPeriodo[contrato.periodo]) {
+        mediaPorPeriodo[contrato.periodo] = { soma: 0, qtd: 0 };
+      }
+      mediaPorPeriodo[contrato.periodo].soma += contrato.valor;
+      mediaPorPeriodo[contrato.periodo].qtd += 1;
+    });
+
+    const periodosComDados = Object.keys(mediaPorPeriodo)
+      .sort((a, b) => (ordemPeriodo[a] ?? 999) - (ordemPeriodo[b] ?? 999));
+
+    for (let i = 1; i < periodosComDados.length; i += 1) {
+      const anterior = mediaPorPeriodo[periodosComDados[i - 1]];
+      const atual = mediaPorPeriodo[periodosComDados[i]];
+      const mediaAnterior = anterior.soma / anterior.qtd;
+      const mediaAtual = atual.soma / atual.qtd;
+
+      if (mediaAnterior > 0 && mediaAtual > mediaAnterior * 1.6) {
+        lista
+          .filter((contrato) => contrato.periodo === periodosComDados[i])
+          .forEach((contrato) => idsCrescimento.add(contrato.id));
+      }
+    }
+  });
+
   return contratos.map((contrato) => {
-    const anomalia = contrato.variacao > 50 || contrato.variacao < -30;
+    const proximidadeValor = idsProximos.has(contrato.id);
+    const crescimentoRepentino = idsCrescimento.has(contrato.id);
+    const anomalia = Math.abs(contrato.zScore || 0) > 2 || proximidadeValor || crescimentoRepentino;
+    const alertasDetectados = Array.isArray(contrato.alertasDetectados)
+      ? [...contrato.alertasDetectados]
+      : [];
+
+    if (proximidadeValor) {
+      alertasDetectados.push("Contratos com valores muito proximos na categoria");
+    }
+    if (crescimentoRepentino) {
+      alertasDetectados.push("Crescimento repentino de valores ao longo do tempo");
+    }
+
     return {
       ...contrato,
-      anomalia
+      proximidadeValor,
+      crescimentoRepentino,
+      anomalia,
+      alertasDetectados
     };
   });
 }
 
 function cruzarDados(contratos) {
-  const altosPorEmpresa = {};
+  const altosPorEmpresaCategoria = {};
 
   contratos.forEach((contrato) => {
     if (contrato.risco === "ALTO") {
-      altosPorEmpresa[contrato.empresa] = (altosPorEmpresa[contrato.empresa] || 0) + 1;
+      const chave = `${contrato.empresa}::${contrato.area}`;
+      altosPorEmpresaCategoria[chave] = (altosPorEmpresaCategoria[chave] || 0) + 1;
     }
   });
 
   return contratos.map((contrato) => {
-    const variosAltos = (altosPorEmpresa[contrato.empresa] || 0) >= 3;
+    const chave = `${contrato.empresa}::${contrato.area}`;
+    const variosAltos = (altosPorEmpresaCategoria[chave] || 0) >= 3;
     const frequenciaAltaEValorAlto = contrato.alertaFrequencia && contrato.risco === "ALTO";
-    const suspeita = variosAltos || frequenciaAltaEValorAlto;
+    const suspeita = variosAltos || frequenciaAltaEValorAlto || (contrato.anomalia && contrato.risco !== "BAIXO");
+    const alertasDetectados = Array.isArray(contrato.alertasDetectados)
+      ? [...contrato.alertasDetectados]
+      : [];
+
+    if (variosAltos) {
+      alertasDetectados.push("Empresa com alta recorrencia de contratos em alto risco");
+    }
+
     return {
       ...contrato,
-      suspeita
+      suspeita,
+      alertasDetectados: Array.from(new Set(alertasDetectados))
     };
   });
 }
 
 function recalcularClassificacaoContratos() {
-  const base = (window.CONTRATOS_GOVSCAN || []).map((contrato) => classificarContrato(contrato));
+  const origem = window.CONTRATOS_GOVSCAN || [];
+  const contratosPorArea = {};
+
+  origem.forEach((contrato) => {
+    if (!contratosPorArea[contrato.area]) contratosPorArea[contrato.area] = [];
+    contratosPorArea[contrato.area].push(contrato);
+  });
+
+  const estatisticasPorArea = {};
+  Object.keys(contratosPorArea).forEach((area) => {
+    const valores = contratosPorArea[area].map((contrato) => contrato.valor);
+    const media = calcularMedia(valores);
+    const desvioPadrao = calcularDesvioPadrao(valores, media);
+    estatisticasPorArea[area] = {
+      total: valores.length,
+      media,
+      desvioPadrao
+    };
+  });
+
+  const base = origem.map((contrato) => classificarContrato(contrato, estatisticasPorArea[contrato.area]));
   const comFrequencia = analisarFrequenciaEmpresas(base);
   const comAnomalias = detectarAnomalias(comFrequencia);
   window.CONTRATOS_GOVSCAN = cruzarDados(comAnomalias);
+
+  window.ALERTAS_GOVSCAN = window.CONTRATOS_GOVSCAN
+    .filter((c) => (c.alertasDetectados && c.alertasDetectados.length) || c.risco === "ALTO" || c.risco === "ATENÇÃO")
+    .map((c) => ({
+      id: c.id,
+      empresa: c.empresa,
+      area: c.area,
+      risco: c.risco,
+      zScore: c.zScore,
+      mediaCategoria: c.media,
+      desvioPadraoCategoria: c.desvioPadrao,
+      alertas: c.alertasDetectados || []
+    }));
+
   return window.CONTRATOS_GOVSCAN;
 }
 
@@ -88,8 +258,10 @@ function criarContrato(id, nome, area, empresa, valor, media, periodo, ordem) {
     empresa,
     valor,
     media,
+    desvioPadrao: 0,
+    zScore: 0,
     variacao,
-    risco: classificarRisco(variacao),
+    risco: "NORMAL",
     periodo,
     ordem
   };
@@ -176,42 +348,42 @@ const empresasTransporte = [
 ];
 
 const saudeValores = [
-  4200000, 4600000, 4000000, 5100000, 4800000,
-  5000000, 5600000, 4300000, 5900000, 4500000,
-  4100000, 5700000, 6000000, 3950000, 4700000,
-  5300000, 6000000, 4900000, 4200000, 5800000
+  780000, 1250000, 1680000, 2340000, 910000,
+  1420000, 1860000, 640000, 2590000, 1130000,
+  980000, 1740000, 2050000, 720000, 1490000,
+  1360000, 2210000, 1190000, 870000, 1920000
 ];
 const saudeMedias = [
-  3200000, 3500000, 3300000, 3900000, 3700000,
-  4000000, 4300000, 3600000, 4500000, 3700000,
-  3400000, 4400000, 4700000, 3300000, 3600000,
-  4100000, 4700000, 3900000, 3400000, 4500000
+  690000, 980000, 1410000, 1780000, 820000,
+  1160000, 1520000, 590000, 1710000, 940000,
+  860000, 1480000, 1630000, 650000, 1210000,
+  1090000, 1760000, 990000, 780000, 1540000
 ];
 
 const educacaoValores = [
-  900000, 1200000, 1450000, 1100000, 1750000,
-  980000, 1500000, 1300000, 800000, 1900000,
-  1050000, 1600000, 1250000, 1400000, 1700000,
-  1150000, 1800000, 950000, 1550000, 1350000
+  240000, 380000, 520000, 740000, 460000,
+  310000, 690000, 430000, 265000, 820000,
+  355000, 610000, 470000, 540000, 760000,
+  330000, 880000, 290000, 640000, 510000
 ];
 const educacaoMedias = [
-  850000, 1150000, 1200000, 1080000, 1350000,
-  900000, 1220000, 1180000, 1200000, 1200000,
-  980000, 1300000, 1180000, 1200000, 1350000,
-  1020000, 1380000, 900000, 1250000, 1150000
+  220000, 340000, 430000, 590000, 390000,
+  280000, 520000, 360000, 240000, 610000,
+  300000, 500000, 410000, 450000, 620000,
+  290000, 670000, 250000, 530000, 420000
 ];
 
 const transporteValores = [
-  3300000, 4000000, 4500000, 3800000, 4700000,
-  3600000, 4200000, 5000000, 3900000, 4300000,
-  3500000, 4100000, 4600000, 3400000, 4800000,
-  3700000, 4400000, 4950000, 4050000, 4700000
+  1250000, 1840000, 2750000, 1630000, 3220000,
+  1480000, 2360000, 4120000, 1710000, 2580000,
+  1390000, 2190000, 3010000, 1320000, 3450000,
+  1570000, 2440000, 3890000, 2050000, 2960000
 ];
 const transporteMedias = [
-  3200000, 3500000, 3600000, 3400000, 3900000,
-  3300000, 3550000, 3900000, 3500000, 3600000,
-  3200000, 3450000, 3650000, 3250000, 3900000,
-  3350000, 3550000, 3900000, 3500000, 3650000
+  1180000, 1560000, 2140000, 1490000, 2480000,
+  1320000, 1890000, 2950000, 1520000, 2030000,
+  1260000, 1780000, 2320000, 1210000, 2570000,
+  1410000, 1960000, 2790000, 1710000, 2260000
 ];
 
 const baseBruta = [
