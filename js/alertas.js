@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <span class="badge ${classe}">${c.risco}</span>
       </div>
-      <p style="margin-bottom: 20px; color: var(--neutral-600);">Valor do contrato comparado a media simulada da area.</p>
+      <p style="margin-bottom: 20px; color: var(--neutral-600);">Valor do contrato comparado a media da categoria analisada.</p>
       ${marcadores.length ? `<p style="margin-bottom: 16px; color: #374151;"><strong>Sinais IA:</strong> ${marcadores.join(" • ")}</p>` : ""}
       <div class="grid" style="gap: 16px; margin-bottom: 24px;">
         <div style="background: var(--neutral-50); padding: 16px; border-radius: var(--radius); text-align: center;">

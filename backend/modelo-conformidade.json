@@ -1,0 +1,63 @@
+{
+  "versao": "2026-04",
+  "fonte_normativa": [
+    "Lei 14.133/2021"
+  ],
+  "pesos": {
+    "conformidade_normativa": 0.45,
+    "red_flags_mercado": 0.35,
+    "semantica_temporal": 0.2
+  },
+  "parametros": {
+    "preco": {
+      "faixa_alerta_percentual": 20,
+      "faixa_critica_percentual": 40
+    },
+    "prazos": {
+      "dias_minimos_padrao": 8
+    },
+    "documentos_obrigatorios": [
+      {
+        "id": "certidao_federal",
+        "nome": "Certidao Negativa de Debitos Federais",
+        "aliases": [
+          "certidao negativa",
+          "certidão negativa",
+          "cnd federal",
+          "debitos federais",
+          "débitos federais"
+        ],
+        "gravidade": "grave"
+      },
+      {
+        "id": "regularidade_fgts",
+        "nome": "Certificado de Regularidade do FGTS",
+        "aliases": [
+          "fgts",
+          "regularidade fgts",
+          "certificado fgts"
+        ],
+        "gravidade": "media"
+      },
+      {
+        "id": "qualificacao_tecnica",
+        "nome": "Qualificacao Tecnica",
+        "aliases": [
+          "qualificacao tecnica",
+          "qualificação técnica",
+          "atestados de capacidade",
+          "aptidao tecnica"
+        ],
+        "gravidade": "media"
+      }
+    ],
+    "termos_restritivos": [
+      "marca especifica",
+      "marca específica",
+      "sem similar",
+      "fornecedor exclusivo",
+      "fabricante unico",
+      "fabricante único"
+    ]
+  }
+}

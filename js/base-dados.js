@@ -290,6 +290,69 @@ function criarBlocoArea(area, nomes, empresas, valores, medias) {
   return contratos;
 }
 
+function normalizarAreaReal(area) {
+  const valor = normalizarTexto(area || "");
+  if (!valor) return "Transporte";
+
+  if (valor.includes("saude") || valor.includes("hospital") || valor.includes("medic")) {
+    return "Saúde";
+  }
+  if (valor.includes("educ") || valor.includes("escola") || valor.includes("creche") || valor.includes("ensino")) {
+    return "Educação";
+  }
+  if (valor.includes("transporte") || valor.includes("rodovia") || valor.includes("paviment") || valor.includes("via")) {
+    return "Transporte";
+  }
+  return "Transporte";
+}
+
+function inferirPeriodoPorData(dataAssinatura) {
+  const data = new Date(dataAssinatura);
+  if (Number.isNaN(data.getTime())) return "6 meses";
+
+  const agora = new Date();
+  const dias = Math.floor((agora - data) / (1000 * 60 * 60 * 24));
+  if (dias <= 14) return "2 semanas";
+  if (dias <= 30) return "último mês";
+  if (dias <= 90) return "3 meses";
+  return "6 meses";
+}
+
+function normalizarNumeroReal(valor) {
+  if (typeof valor === "number") return Number.isFinite(valor) ? valor : 0;
+  const texto = String(valor || "")
+    .replace(/R\$\s*/gi, "")
+    .replace(/\.(?=\d{3}(\D|$))/g, "")
+    .replace(/,/g, ".")
+    .replace(/[^0-9.-]/g, "");
+  const numero = Number(texto);
+  return Number.isFinite(numero) ? numero : 0;
+}
+
+function converterRegistroReal(registro, index) {
+  const categoria = normalizarAreaReal(registro.categoria || registro.area || registro.tipo || "");
+  const valor = normalizarNumeroReal(registro.valor);
+  const media = normalizarNumeroReal(registro.valor_referencia || registro.media || valor);
+  const periodo = inferirPeriodoPorData(registro.data_assinatura || registro.data || "");
+
+  return criarContrato(
+    index + 1,
+    String(registro.objeto || registro.nome || `Contrato ${index + 1}`),
+    categoria,
+    String(registro.empresa || registro.fornecedor || "Empresa não informada"),
+    valor,
+    media || valor,
+    periodo,
+    (index % 5) + 1
+  );
+}
+
+function construirBaseAPartirDadosReais(registros) {
+  return registros
+    .map((registro, index) => converterRegistroReal(registro, index))
+    .filter((c) => c.valor > 0 && c.empresa !== "Empresa não informada");
+}
+
 const nomesSaude = [
   "Aquisição de Equipamentos Hospitalares",
   "Reforma de Unidade Básica de Saúde",
@@ -392,9 +455,20 @@ const baseBruta = [
   ...criarBlocoArea("Transporte", nomesTransporte, empresasTransporte, transporteValores, transporteMedias)
 ];
 
-window.CONTRATOS_GOVSCAN = baseBruta.map((c, index) =>
-  criarContrato(index + 1, c.nome, c.area, c.empresa, c.valor, c.media, c.periodo, c.ordem)
-);
+const dadosReaisEntrada = Array.isArray(window.GOVSCAN_DADOS_REAIS) ? window.GOVSCAN_DADOS_REAIS : [];
+const baseReal = dadosReaisEntrada.length ? construirBaseAPartirDadosReais(dadosReaisEntrada) : [];
+const baseFinal = baseReal.length
+  ? baseReal
+  : baseBruta.map((c, index) => criarContrato(index + 1, c.nome, c.area, c.empresa, c.valor, c.media, c.periodo, c.ordem));
+
+window.GOVSCAN_METADATA_DADOS = {
+  origem: baseReal.length ? "dados_reais" : "simulacao",
+  totalRegistrosEntrada: dadosReaisEntrada.length,
+  totalRegistrosUtilizados: baseFinal.length,
+  atualizadoEm: (window.GOVSCAN_DADOS_REAIS_META && window.GOVSCAN_DADOS_REAIS_META.atualizadoEm) || new Date().toISOString()
+};
+
+window.CONTRATOS_GOVSCAN = baseFinal;
 
 // Recalcula toda a base ao carregar para garantir consistencia da simulacao.
 recalcularClassificacaoContratos();
